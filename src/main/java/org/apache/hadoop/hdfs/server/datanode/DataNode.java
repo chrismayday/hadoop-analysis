@@ -17,12 +17,16 @@
  */
 package org.apache.hadoop.hdfs.server.datanode;
 
+import org.apache.hadoop.hdfs.server.EntryDaemon;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class DataNode {
+/**
+ * DataNode daemon.
+ */
+public class DataNode implements EntryDaemon {
 
-  private AtomicBoolean started = new AtomicBoolean(true);
-
+  private AtomicBoolean running = new AtomicBoolean(true);
 
   public DataNode() {
     try {
@@ -49,17 +53,28 @@ public class DataNode {
     return new DataNode();
   }
 
-  public synchronized void join() throws Exception {
-    while (started.get()) {
+  private void startDataNode() throws Exception {
+
+  }
+
+  // *************************************************
+  // *
+  // * Implement the interface EntryDaemon.java
+  // *
+  // *************************************************
+
+  public boolean isRunning() {
+    return running.get();
+  }
+
+  public synchronized void join() throws Exception{
+    while (isRunning()) {
       wait();
     }
   }
 
-  public void stop() {
-    started.set(false);
-  }
-
-  private void startDataNode() throws Exception {
-
+  public synchronized void stop() {
+    running.set(false);
+    notifyAll();
   }
 }

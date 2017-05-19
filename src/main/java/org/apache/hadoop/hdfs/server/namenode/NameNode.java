@@ -17,12 +17,17 @@
  */
 package org.apache.hadoop.hdfs.server.namenode;
 
+import org.apache.hadoop.hdfs.server.EntryDaemon;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class NameNode {
+/**
+ * NameNode daemon.
+ */
+public class NameNode implements EntryDaemon {
 
   private FSNameSystem nameSystem;
-  private AtomicBoolean started = new AtomicBoolean(true);
+  private AtomicBoolean running = new AtomicBoolean(true);
 
   public NameNode() throws Exception {
     initialize();
@@ -38,13 +43,6 @@ public class NameNode {
   public static void main(String[] args) throws Exception {
     NameNode nameNode = createNameNode();
     nameNode.join();
-  }
-
-  /**
-   * Stop name node server.
-   */
-  public void stop() {
-    started.set(false);
   }
 
   /**
@@ -67,12 +65,30 @@ public class NameNode {
     this.nameSystem.startCommonServices();
   }
 
+  // *************************************************
+  // *
+  // * Implement the interface EntryDaemon.java
+  // *
+  // *************************************************
+
+  /**
+   * Stop name node server.
+   */
+  public synchronized void stop() {
+    running.set(false);
+    notifyAll();
+  }
+
+  public boolean isRunning() {
+    return false;
+  }
+
   /**
    * Keep name node alive.
    * @throws Exception
    */
-  private synchronized void join() throws Exception {
-    while (started.get()) {
+  public synchronized void join() throws Exception {
+    while (isRunning()) {
       wait();
     }
   }
