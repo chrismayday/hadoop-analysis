@@ -15,14 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hadoop.hdfs.server.namenode;
+package org.apache.hadoop.hdfs.server;
 
-public interface NameSystem {
+public interface ThreadCollection {
 
   /**
-   * Check whether name system is running.
-   * @return true if name system is running.
+   * Start routine threads or a collection of routine threads.
+   * @throws Exception
    */
-  boolean isRunning();
+  void startThreads() throws Exception;
+
+  /**
+   * Stop routine threads or a collection of routine threads.
+   * @throws Exception
+   */
+  void stopThreads() throws Exception;
 
 }

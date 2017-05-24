@@ -18,24 +18,20 @@
 package org.apache.hadoop.hdfs.server;
 
 /**
- * This class defines the methods for the entrance daemon.
- * and it's used to instance other regular threads/port listeners.
+ * Defines routine threads for daemon process.
+ * This kind of thread has infinite loop and it
+ * won't stop unless some conditions are satisfied.
  */
-public interface EntryDaemon extends ThreadCollection {
+public interface RoutineThread extends Runnable {
 
   /**
-   * Whether the process is in the state of running.
-   */
-  boolean isRunning();
-
-  /**
-   * Suspend the main thread by the method wait.
-   */
-  void join() throws Exception;
-
-  /**
-   * Stop the main thread by notify it when some conditions
-   * are satisfied.
+   * Stop method for a thread.
    */
   void stop();
+
+  /**
+   * Start method for a routine thread.
+   */
+  void start();
+
 }

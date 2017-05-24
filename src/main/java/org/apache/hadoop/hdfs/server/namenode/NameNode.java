@@ -18,7 +18,6 @@
 package org.apache.hadoop.hdfs.server.namenode;
 
 import org.apache.hadoop.hdfs.server.EntryDaemon;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -26,43 +25,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class NameNode implements EntryDaemon {
 
-  private FSNameSystem nameSystem;
   private AtomicBoolean running = new AtomicBoolean(true);
-
-  public NameNode() throws Exception {
-    initialize();
-  }
-
-  public static NameNode createNameNode() throws Exception {
-    return new NameNode();
-  }
 
   /**
    * NameNode process entrance.
    */
   public static void main(String[] args) throws Exception {
-    NameNode nameNode = createNameNode();
-    nameNode.join();
-  }
-
-  /**
-   * Initialize nameNode env.
-   */
-  private void initialize() throws Exception {
-    loadNameSystem();
-    startCommonServices();
-  }
-
-  private void loadNameSystem() throws Exception {
-    this.nameSystem = FSNameSystem.loadFromDisk();
-  }
-
-  /**
-   * Start nameNode's common services.
-   * @throws Exception
-   */
-  private void startCommonServices() throws Exception {
-    this.nameSystem.startCommonServices();
   }
 
   // *************************************************
@@ -80,7 +48,7 @@ public class NameNode implements EntryDaemon {
   }
 
   public boolean isRunning() {
-    return false;
+    return running.get();
   }
 
   /**
@@ -93,4 +61,9 @@ public class NameNode implements EntryDaemon {
     }
   }
 
+  public void startThreads() throws Exception {
+  }
+
+  public void stopThreads() throws Exception {
+  }
 }

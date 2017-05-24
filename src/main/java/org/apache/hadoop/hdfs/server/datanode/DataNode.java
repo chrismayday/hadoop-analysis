@@ -18,7 +18,6 @@
 package org.apache.hadoop.hdfs.server.datanode;
 
 import org.apache.hadoop.hdfs.server.EntryDaemon;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -26,35 +25,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DataNode implements EntryDaemon {
 
-  private AtomicBoolean running = new AtomicBoolean(true);
 
-  public DataNode() {
-    try {
-      startDataNode();
-    } catch (Exception ignored) {
-      stop();
-    }
-  }
+  private AtomicBoolean running = new AtomicBoolean(true);
 
   /**
    * DataNode process entrance.
    */
   public static void main(String[] args) throws Exception {
-    DataNode dataNode = instantiateDataNode();
-    dataNode.join();
-  }
-
-  /**
-   * Create a instance of data node.
-   * @return data node.
-   * @throws Exception
-   */
-  public static DataNode instantiateDataNode() throws Exception {
-    return new DataNode();
-  }
-
-  private void startDataNode() throws Exception {
-
   }
 
   // *************************************************
@@ -77,4 +54,11 @@ public class DataNode implements EntryDaemon {
     running.set(false);
     notifyAll();
   }
+
+  public void startThreads() throws Exception {
+  }
+
+  public void stopThreads() throws Exception {
+  }
+
 }
