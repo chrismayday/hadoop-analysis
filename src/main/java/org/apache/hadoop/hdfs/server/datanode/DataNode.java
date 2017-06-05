@@ -50,14 +50,25 @@ public class DataNode implements EntryDaemon {
     }
   }
 
+  /**
+   * Stop DataNode daemon.
+   */
   public synchronized void stop() {
     running.set(false);
     notifyAll();
   }
 
+  /**
+   * Start threads for DataNode.
+   * @throws Exception
+   */
   public void startThreads() throws Exception {
   }
 
+  /**
+   * Stop threads for DataNode.
+   * @throws Exception
+   */
   public void stopThreads() throws Exception {
   }
 

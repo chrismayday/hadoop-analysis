@@ -47,6 +47,11 @@ public class NameNode implements EntryDaemon {
     notifyAll();
   }
 
+  /**
+   * Get the running state of NameNode daemon.
+   *
+   * @return whether NameNode is running.
+   */
   public boolean isRunning() {
     return running.get();
   }
@@ -61,9 +66,17 @@ public class NameNode implements EntryDaemon {
     }
   }
 
+  /**
+   * Start threads for NameNode.
+   * @throws Exception
+   */
   public void startThreads() throws Exception {
   }
 
+  /**
+   * Stop threads for NameNode.
+   * @throws Exception
+   */
   public void stopThreads() throws Exception {
   }
 }
