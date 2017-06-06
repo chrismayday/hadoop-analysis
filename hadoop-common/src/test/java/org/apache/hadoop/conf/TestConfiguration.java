@@ -18,7 +18,7 @@
 package org.apache.hadoop.conf;
 
 /**
- * Tests for Configuration.java.
+ * Tests again for Configuration.java.
  */
 public class TestConfiguration {
 }
