@@ -17,5 +17,8 @@
  */
 package org.apache.hadoop.conf;
 
+/**
+ * Tests for Configuration.java.
+ */
 public class TestConfiguration {
 }
