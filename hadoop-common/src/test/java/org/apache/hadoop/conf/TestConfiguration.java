@@ -22,6 +22,9 @@ package org.apache.hadoop.conf;
  *
  * test merge1
  * test merge2
+ *
+ * test merge3 with squash
+ * test merge4 with squash
  */
 public class TestConfiguration {
 }
