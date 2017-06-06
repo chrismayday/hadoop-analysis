@@ -15,23 +15,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hadoop.hdfs.server.datanode;
+package org.apache.hadoop.hdfs.server.namenode;
 
 import org.apache.hadoop.hdfs.server.EntryDaemon;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * DataNode daemon.
+ * NameNode daemon.
  */
-public class DataNode implements EntryDaemon {
+public class NameNode implements EntryDaemon {
 
+  enum Role {
+    NN, SNN, VIEW
+  }
 
   private AtomicBoolean running = new AtomicBoolean(true);
 
+  private Role role;
+
+  // NameNode name, for example, we can set
+  // this value as NN1, NN2, NN3...
+  // It's important for supporting multiple NameNodes.
+  private String name;
+
   /**
-   * DataNode process entrance.
+   * NameNode process entrance.
    */
   public static void main(String[] args) throws Exception {
+  }
+
+  /**
+   * Format a new filesystem. Destroys any filesystem
+   * that may already exist at this location.
+   *
+   * @throws Exception
+   */
+  public static void format() throws Exception {
+
   }
 
   // *************************************************
@@ -40,18 +60,8 @@ public class DataNode implements EntryDaemon {
   // *
   // *************************************************
 
-  public boolean isRunning() {
-    return running.get();
-  }
-
-  public synchronized void join() throws Exception{
-    while (isRunning()) {
-      wait();
-    }
-  }
-
   /**
-   * Stop DataNode daemon.
+   * Stop name node server.
    */
   public synchronized void stop() {
     running.set(false);
@@ -59,17 +69,35 @@ public class DataNode implements EntryDaemon {
   }
 
   /**
-   * Start threads for DataNode.
+   * Get the running state of NameNode daemon.
+   *
+   * @return whether NameNode is running.
+   */
+  public boolean isRunning() {
+    return running.get();
+  }
+
+  /**
+   * Keep name node alive.
+   * @throws Exception
+   */
+  public synchronized void join() throws Exception {
+    while (isRunning()) {
+      wait();
+    }
+  }
+
+  /**
+   * Start threads for NameNode.
    * @throws Exception
    */
   public void startThreads() throws Exception {
   }
 
   /**
-   * Stop threads for DataNode.
+   * Stop threads for NameNode.
    * @throws Exception
    */
   public void stopThreads() throws Exception {
   }
-
 }

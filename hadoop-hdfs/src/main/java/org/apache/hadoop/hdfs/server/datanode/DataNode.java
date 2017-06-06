@@ -15,22 +15,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hadoop.hdfs.server.namenode;
+package org.apache.hadoop.hdfs.server.datanode;
 
 import org.apache.hadoop.hdfs.server.EntryDaemon;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * NameNode daemon.
+ * DataNode daemon.
  */
-public class NameNode implements EntryDaemon {
+public class DataNode implements EntryDaemon {
+
 
   private AtomicBoolean running = new AtomicBoolean(true);
 
   /**
-   * NameNode process entrance.
+   * DataNode process entrance.
    */
   public static void main(String[] args) throws Exception {
+  }
+
+  /**
+   * Format a new filesystem. Destroys any filesystem
+   * that may already exist at this location. Since
+   * there are multiple NN in the cluster, DataNode
+   * needs this method to locate the NameNode which
+   * it reports to.
+   *
+   * @throws Exception
+   */
+  public static void format() throws Exception {
+
   }
 
   // *************************************************
@@ -39,8 +53,18 @@ public class NameNode implements EntryDaemon {
   // *
   // *************************************************
 
+  public boolean isRunning() {
+    return running.get();
+  }
+
+  public synchronized void join() throws Exception{
+    while (isRunning()) {
+      wait();
+    }
+  }
+
   /**
-   * Stop name node server.
+   * Stop DataNode daemon.
    */
   public synchronized void stop() {
     running.set(false);
@@ -48,35 +72,17 @@ public class NameNode implements EntryDaemon {
   }
 
   /**
-   * Get the running state of NameNode daemon.
-   *
-   * @return whether NameNode is running.
-   */
-  public boolean isRunning() {
-    return running.get();
-  }
-
-  /**
-   * Keep name node alive.
-   * @throws Exception
-   */
-  public synchronized void join() throws Exception {
-    while (isRunning()) {
-      wait();
-    }
-  }
-
-  /**
-   * Start threads for NameNode.
+   * Start threads for DataNode.
    * @throws Exception
    */
   public void startThreads() throws Exception {
   }
 
   /**
-   * Stop threads for NameNode.
+   * Stop threads for DataNode.
    * @throws Exception
    */
   public void stopThreads() throws Exception {
   }
+
 }
